@@ -1,1 +1,5 @@
-ref: refs/heads/main
+0000000000000000000000000000000000000000 d676f1e54f1e3e5202a68ccd8cd4e8d44bcba411 abhinayasenthil <50790227-abhinayasenthil@users.noreply.replit.com> 1764914886 +0000	commit (initial): Initial commit
+d676f1e54f1e3e5202a68ccd8cd4e8d44bcba411 7599befcfe5fba80566891b7c80881c97603c0b7 abhinayasenthil <50790227-abhinayasenthil@users.noreply.replit.com> 1764914943 +0000	commit: Extracted stack files
+7599befcfe5fba80566891b7c80881c97603c0b7 c4e4c34079cdf5e83f8631f519174fb52496aa98 abhinayasenthil <50790227-abhinayasenthil@users.noreply.replit.com> 1764915744 +0000	commit: Add core application structure and essential learning modules
+c4e4c34079cdf5e83f8631f519174fb52496aa98 6b297cc2c1515b5575ca7ed020bb9766ed0d13b7 abhinayasenthil <50790227-abhinayasenthil@users.noreply.replit.com> 1764928586 +0000	commit: Add security enhancements and user authentication improvements
+6b297cc2c1515b5575ca7ed020bb9766ed0d13b7 44649ac01a80451df854e979a553381d82b52c60 abhinayasenthil <50790227-abhinayasenthil@users.noreply.replit.com> 1764928607 +0000	commit: Saved progress at the end of the loop
