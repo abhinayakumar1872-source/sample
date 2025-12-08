@@ -1,0 +1,153 @@
+Title:
+Agentic — AI-Based Adaptive Learning Platform for Differently Abled Students
+
+Prompt:
+Build a complete Python + Flask (or Streamlit) project that provides an AI-based adaptive learning platform designed specifically for differently abled students. The system should include accessibility features, multimodal AI interaction, adaptive learning logic, and a clean dashboard UI.
+
+1. Project Goals
+Create a platform that:
+
+Personalizes learning material based on each student’s ability.
+
+Supports voice, text, sign language detection, and visual interaction.
+
+Adapts difficulty level using reinforcement learning or rule-based logic.
+
+Tracks student behaviour, emotion, progress, and performance.
+
+Provides a simple, accessible web UI.
+
+2. Required System Features
+A. Accessibility & Multimodal Input
+Implement:
+
+Text-to-Speech (TTS) for visually impaired students
+
+Speech-to-Text (STT) for limited mobility students
+
+Hand gesture recognition for sign-language interpretation using MediaPipe
+
+Simple, accessible UI with large fonts & high contrast
+
+Voice command navigation (basic commands)
+
+Files:
+
+/modules/tts_engine.py
+/modules/stt_engine.py
+/modules/sign_language_detector.py
+B. Adaptive Learning Engine
+Analyze student's speed, accuracy, and comprehension
+
+Adjust quiz difficulty automatically
+
+Provide personalized recommendations
+
+Maintain student learning profile
+
+Rule-based + ML-driven adaptation (basic RL or decision tree)
+
+File:
+/modules/adaptive_engine.py
+
+C. Content Personalization Layer
+Text simplification (shorter sentences)
+
+Multiple content formats: text, audio, visual diagrams
+
+Option to convert lessons to sign language video (placeholder)
+
+Reading-level adjustment (easy, medium, advanced)
+
+File:
+/modules/content_personalization.py
+
+D. Emotion & Engagement Detection (Basic)
+Use webcam to detect expressions like confusion, engagement, frustration
+
+OpenCV + simple CNN/mediapipe emotion model
+
+Adapt UI/lesson if student looks confused
+
+File:
+/modules/emotion_detector.py
+
+E. Learning Analytics & Student Progress
+Record quiz results, difficulty changes, time spent
+
+Generate weekly progress report
+
+Store data in JSON or SQLite
+
+Files:
+
+/modules/progress_tracker.py
+/database/student_data.db
+F. Web Dashboard (Flask or Streamlit)
+Features required:
+
+Student login/simple ID selection
+
+Lesson viewer
+
+Quiz section
+
+Progress charts (matplotlib)
+
+Audio mode
+
+Sign language mode
+
+Emotion detection mode
+
+Files:
+
+app.py
+/templates/index.html
+/templates/lesson.html
+/templates/quiz.html
+/static/style.css
+3. Utilities
+/utils/helpers.py
+/utils/plot_utils.py
+4. Requirements
+Generate a requirements.txt with:
+
+flask
+opencv-python
+mediapipe
+tensorflow
+numpy
+pandas
+matplotlib
+gTTS
+speechrecognition
+pyaudio
+5. Expected File Structure
+main.py
+app.py
+/modules/tts_engine.py
+/modules/stt_engine.py
+/modules/sign_language_detector.py
+/modules/adaptive_engine.py
+/modules/content_personalization.py
+/modules/emotion_detector.py
+/modules/progress_tracker.py
+/utils/helpers.py
+/utils/plot_utils.py
+/templates/index.html
+/templates/lesson.html
+/templates/quiz.html
+/static/style.css
+/database/student_data.db
+6. Expected Final Behaviour
+Students interact using text, audio, or gestures
+
+Lessons adapt based on performance & behaviour
+
+Platform simplifies content automatically
+
+Progress dashboard visualizes growth
+
+Runs fully inside Replit
+

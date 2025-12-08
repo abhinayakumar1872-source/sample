@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Agentic Learning{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold mb-2">{{ get_greeting(student.name) }}</h1>
+            <p class="lead text-muted">Let's continue your learning journey</p>
+        </div>
+    </div>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-12 col-lg-8">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap align-items-center gap-4">
+                        <div class="profile-avatar">
+                            <div class="avatar-circle bg-primary text-white">
+                                {{ student.name[0].upper() }}
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h2 class="h4 mb-1">{{ student.name }}</h2>
+                            <p class="text-muted mb-2">Student ID: {{ student.student_id }}</p>
+                            <div class="d-flex flex-wrap gap-3">
+                                <span class="badge bg-{{ get_difficulty_color(student.current_difficulty) }} fs-6">
+                                    Level: {{ get_difficulty_label(student.current_difficulty) }}
+                                </span>
+                                {% if student.streak_days > 0 %}
+                                <span class="badge bg-warning text-dark fs-6">
+                                    <i data-feather="zap" aria-hidden="true" style="width: 14px; height: 14px;"></i>
+                                    {{ student.streak_days }} day streak
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-end d-none d-md-block">
+                            <a href="{{ url_for('progress') }}" class="btn btn-outline-primary btn-lg">
+                                <i data-feather="bar-chart-2" aria-hidden="true"></i>
+                                View Progress
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm bg-primary text-white">
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                    <h3 class="h5 mb-3">Quick Stats</h3>
+                    <div class="row g-3 text-center">
+                        <div class="col-4">
+                            <div class="stat-number display-6 fw-bold">{{ student.total_lessons_completed }}</div>
+                            <div class="stat-label small opacity-75">Lessons</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-number display-6 fw-bold">{{ student.total_quizzes_taken }}</div>
+                            <div class="stat-label small opacity-75">Quizzes</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-number display-6 fw-bold">{{ "%.0f"|format(student.average_score) }}%</div>
+                            <div class="stat-label small opacity-75">Avg Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if recommendations %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <h3 class="h5 mb-3">
+                <i data-feather="star" aria-hidden="true"></i>
+                Recommendations for You
+            </h3>
+            <div class="row g-3">
+                {% for rec in recommendations[:3] %}
+                <div class="col-12 col-md-4">
+                    <div class="card border-0 shadow-sm h-100 recommendation-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rec-icon bg-light rounded-circle p-3">
+                                    <i data-feather="{{ rec.icon }}" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h4 class="h6 mb-1">{{ rec.title }}</h4>
+                                    <p class="text-muted small mb-0">{{ rec.message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h4 mb-0">
+                    <i data-feather="book-open" aria-hidden="true"></i>
+                    Your Lessons
+                </h3>
+                <div class="progress-summary">
+                    <span class="text-muted">
+                        {{ progress_stats.completed }} of {{ lessons|length }} completed
+                    </span>
+                    <div class="progress ms-3" style="width: 120px; height: 8px;" role="progressbar"
+                         aria-valuenow="{{ progress_stats.completion_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar {{ get_progress_bar_class(progress_stats.completion_percentage) }}" 
+                             style="width: {{ progress_stats.completion_percentage }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        {% for lesson in lessons %}
+        {% set lp = progress_map.get(lesson.id) %}
+        {% set status = lp.status if lp else 'not_started' %}
+        {% set progress_percent = lp.progress_percent if lp else 0 %}
+        
+        <div class="col-12 col-md-6 col-xl-4">
+            <a href="{{ url_for('lesson', lesson_id=lesson.id) }}" class="text-decoration-none">
+                <div class="card lesson-card h-100 border-0 shadow-sm difficulty-{{ student.current_difficulty }}">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-{{ get_difficulty_color(student.current_difficulty) }}">
+                                {{ get_difficulty_label(student.current_difficulty) }}
+                            </span>
+                            {% if status == 'completed' %}
+                            <span class="badge bg-success">
+                                <i data-feather="check" aria-hidden="true" style="width: 12px; height: 12px;"></i>
+                                Completed
+                            </span>
+                            {% elif status == 'in_progress' %}
+                            <span class="badge bg-info">In Progress</span>
+                            {% endif %}
+                        </div>
+                        
+                        <h4 class="h5 card-title mb-2">{{ lesson.title }}</h4>
+                        <p class="card-text text-muted small mb-3">{{ lesson.description or 'Start learning this topic' }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted small">
+                                <i data-feather="clock" aria-hidden="true" style="width: 14px; height: 14px;"></i>
+                                {{ lesson.estimated_time }} min
+                            </span>
+                            <span class="text-muted small">{{ lesson.subject }}</span>
+                        </div>
+                        
+                        <div class="progress" style="height: 6px;" role="progressbar"
+                             aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
+                             aria-label="Lesson progress">
+                            <div class="progress-bar {{ get_progress_bar_class(progress_percent) }}" 
+                                 style="width: {{ progress_percent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                        <span class="btn btn-outline-primary w-100">
+                            {% if status == 'completed' %}
+                                Review Lesson
+                            {% elif status == 'in_progress' %}
+                                Continue Learning
+                            {% else %}
+                                Start Lesson
+                            {% endif %}
+                            <i data-feather="arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i data-feather="book" class="text-muted mb-3" style="width: 48px; height: 48px;" aria-hidden="true"></i>
+                    <h4 class="h5">No Lessons Available</h4>
+                    <p class="text-muted">New lessons will appear here when they're added.</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
