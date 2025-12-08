@@ -1,1 +1,1 @@
-# Agentic AI Learning Platform Modules
+# Agentic AI Learning Platform Utilities
